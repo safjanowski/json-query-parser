@@ -1,7 +1,10 @@
-JSON query parser
+JSON query parser [![Build Status](https://travis-ci.org/safjanowski/json-query-parser.svg?branch=master)](https://travis-ci.org/safjanowski/json-query-parser)
 =================
 
 Tool for build chainable queries to retrive data from JSON structure.
+
+
+
 
 Supported methods
 -----------------
