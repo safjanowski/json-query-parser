@@ -1,0 +1,26 @@
+{
+  "name": "json-query-parser",
+  "version": "0.0.1",
+  "description": "Tool for build chainable queries to retrive data from JSON structure",
+  "main": "parser.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/safjanowski/json-query-parser.git"
+  },
+  "keywords": [
+    "json",
+    "parser"
+  ],
+  "author": "Krzysztof Safjanowski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/safjanowski/json-query-parser/issues"
+  },
+  "homepage": "https://github.com/safjanowski/json-query-parser",
+  "devDependencies": {
+    "mocha": "~1.20.1"
+  }
+}
