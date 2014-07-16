@@ -1,6 +1,9 @@
-var parser = (function () {
+/* global module: true */
 
-  function collection(nodes) {
+var parser = function () {
+  'use strict';
+
+  function Collection(nodes) {
     extend(this, nodes);
     this.length = nodes.length;
     this.parent = null;
@@ -25,16 +28,16 @@ var parser = (function () {
 
   function nodeMatcher(node, selectorExpr) {
     var type = typeof selectorExpr;
-    if (type === "string") {
+    if (type === 'string') {
       return node.name === selectorExpr;
-    } else if (type === "function") {
+    } else if (type === 'function') {
       return !!selectorExpr(node);
     } else {
-      throw new TypeError("Cannot filter node with selector " + selectorExpr);
+      throw new TypeError('Cannot filter node with selector ' + selectorExpr);
     }
   }
 
-  collection.prototype = {
+  Collection.prototype = {
     toArray: function () {
       return Array.prototype.slice.call(this);
     },
@@ -53,7 +56,7 @@ var parser = (function () {
       var filteredNodes = this.toArray().filter(function(node) {
         return nodeMatcher(node, selectorExpr);
       });
-      return this.pushStack(filteredNodes)
+      return this.pushStack(filteredNodes);
     },
 
     each: function (callback) {
@@ -76,7 +79,7 @@ var parser = (function () {
     },
 
     pushStack: function (nodes) {
-      var newInstance = new collection(nodes);
+      var newInstance = new Collection(nodes);
       newInstance.parent = this;
       return newInstance;
     },
@@ -96,14 +99,14 @@ var parser = (function () {
     },
 
     names: function () {
-      return this.props("name");
+      return this.props('name');
     }
 
   };
 
   return function (nodes) {
-    return new collection(nodes);
-  }
-}());
+    return new Collection(nodes);
+  };
+};
 
-module.exports.parser = parser;
+module.exports = parser;
