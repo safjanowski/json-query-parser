@@ -49,6 +49,13 @@ var parser = (function () {
       return this.pushStack(foundNodes);
     },
 
+    filter: function(selectorExpr) {
+      var filteredNodes = this.toArray().filter(function(node) {
+        return nodeMatcher(node, selectorExpr);
+      });
+      return this.pushStack(filteredNodes)
+    },
+
     each: function (callback) {
       this.toArray().forEach(callback);
       return this;

@@ -2,10 +2,10 @@ var assert = require('assert')
   , parser = require('../parser').parser;
 
 
-describe('.find()', function() {
+describe('QueryParser', function() {
     var drinks;
 
-    before(function() {
+    beforeEach(function() {
         drinks = [
           {
             "name": "Soft Drinks",
@@ -57,16 +57,33 @@ describe('.find()', function() {
         ];
     });
 
-    it('.children() returns children of selected leaf', function() {
-        assert.equal(parser(drinks).find('Soft Drinks').children().length, 3);
-        assert.equal(parser(drinks).find('Soft Drinks').find('Fountain').children().length, 1);
-    });
-    
-    it('findes nodes according to passed values', function() {
-        assert.deepEqual(parser(drinks).find('Soft Drinks').find('Bottled').children().names(), ['Apple']);
+    it('throws error if node mather is not supported', function() {
+        assert.throws(function () { parser(drinks).find({}) });
     });
 
-    it('findes nodes according to passed values', function() {
-        assert.deepEqual(parser(drinks).find('Soft Drinks').find('Bottled').find('Apple').children().names(), ["Apple 500 ML","Apple 1 Ltr"]);
+    it('.children() returns children of selected leaf', function() {
+        assert.equal(parser(drinks).find('Soft Drinks').children().length, 3);
+        assert.equal(parser(drinks).find('Soft Drinks').find('Fountain')
+            .children().length, 1);
+    });
+
+    it('.find() nodes', function() {
+        assert.deepEqual(parser(drinks).find('Soft Drinks').find('Bottled')
+            .find('Apple').children().names(), [ "Apple 500 ML","Apple 1 Ltr" ]);
+    });
+
+    it('.filter() nodes', function() {
+        assert.deepEqual(parser(drinks).find('Soft Drinks').find('Apple')
+            .children().filter(function(node) {
+            return node.name.match(/500/);
+        }).names(), [ 'Apple 500 ML', 'Apple Regular, 500 ML' ])
+    });
+
+    it('.map() nodes', function() {
+        console.log(parser(drinks).find('Soft Drinks').find('Fountain').find('Apple').children().names())
+        assert.deepEqual(parser(drinks).find('Soft Drinks').find('Bottled')
+            .find('Apple').children().map(function(drink) {
+            return drink.name.toLowerCase()
+        }), [ "apple 500 ml", "apple 1 ltr" ]);
     });
 });
